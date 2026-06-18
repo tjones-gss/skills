@@ -10,6 +10,13 @@ slash commands and capabilities, each self-contained and installable into
 |-------|--------------|
 | [`overcheck`](./skills/overcheck) | `/overcheck` — reviews your uncommitted diff for overengineering (premature abstraction, speculative features, drive-by changes, unverifiable "done") and reports only high-confidence findings. |
 
+## Notes
+
+Durable learnings that inform these skills live in [`notes/`](./notes) — including
+the agentic-workflow notes from Nethum Weerasinghe that the `overcheck` skill grew
+out of, plus reusable artifacts (his anti-overengineering `EXAMPLES.md` and the
+`/ref` research command). See [`notes/README.md`](./notes/README.md).
+
 ## Install
 
 Symlink every skill in this repo into your Claude Code skills directory:
@@ -32,6 +39,7 @@ Each skill is invoked by its directory name — e.g. `skills/overcheck/` →
 skills/
 ├── README.md            # this file — index + install
 ├── install.sh           # links skills/* into ~/.claude/skills/
+├── notes/               # durable learnings behind the skills (see notes/README.md)
 └── skills/
     └── <skill-name>/
         ├── SKILL.md      # required — the skill (YAML frontmatter + instructions)
