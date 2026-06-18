@@ -1,0 +1,6 @@
+# file: discount.py
+def price(amount, kind):
+    if kind == "pct10": return amount * 0.9
+    if kind == "pct20": return amount * 0.8
+    if kind == "flat5": return max(0, amount - 5)
+    return amount

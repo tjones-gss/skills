@@ -1,0 +1,9 @@
+# file: discount.py
+DISCOUNTS = {"pct10": 0.10, "pct20": 0.20}
+
+def price(amount, kind):
+    if kind in DISCOUNTS:
+        return amount * (1 - DISCOUNTS[kind])
+    if kind == "flat5":
+        return max(0, amount - 5)
+    return amount

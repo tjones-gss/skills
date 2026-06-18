@@ -1,0 +1,7 @@
+# file: validate.py
+def validate_user(user_data):
+    if not user_data.get('email'):
+        raise ValueError("Email required")
+    if '@' not in user_data['email']:
+        raise ValueError("Invalid email")
+    return True

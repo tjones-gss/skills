@@ -1,0 +1,19 @@
+# file: validate.py
+from abc import ABC, abstractmethod
+
+class EmailRule(ABC):
+    @abstractmethod
+    def check(self, email): ...
+
+class BasicEmailRule(EmailRule):
+    def check(self, email):
+        return '@' in email
+
+def validate_user(user_data, strict=False, locale="en", notify=False):
+    """Validate user data."""
+    email: str = user_data.get('email', '')
+    if not email:
+        raise ValueError("Email required")
+    if not BasicEmailRule().check(email):
+        raise ValueError("Invalid email")
+    return True

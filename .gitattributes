@@ -1,0 +1,3 @@
+# Keep everything LF so fixture diffs are byte-for-byte reproducible across platforms.
+* text=auto eol=lf
+*.sh text eol=lf

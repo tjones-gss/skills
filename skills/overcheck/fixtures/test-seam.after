@@ -1,0 +1,5 @@
+# file: report.py
+def build_report(fetch=None):
+    fetch = fetch or fetch_rows
+    rows = fetch()
+    return render(rows)
