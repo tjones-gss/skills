@@ -25,6 +25,18 @@ looks like and where the skills here came from.
   answer. **Installable as a command** — copy into `~/.claude/commands/ref.md` (or
   add as a skill) to use it. GSS-specific.
 
+- **[reference/orchestrate.md](./reference/orchestrate.md)** — Nethum's agent-team
+  coordinator skill (`/orchestrate`): worktree isolation → phased roadmap →
+  score-and-route by complexity (model/plan/review matrix) → review + checkpoints.
+  A pure coordinator that never implements.
+
+- **[reference/johndavis.md](./reference/johndavis.md)** — Nethum's autonomous
+  "proxy manager" (`/johndavis`) layered on top of orchestrate: runs hands-off,
+  decides-by-impact with an escalation protocol, flat named-teammate roster,
+  sensitivity-driven cadence, a preflight hard gate, and a headless `claude -p`
+  child for roadmap research. The notes doc's *Update 2026-06-18* section explains
+  the ideas worth stealing.
+
 ## Why these live here
 
 The skills in this repo encode judgment; these notes are where that judgment came

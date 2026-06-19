@@ -171,6 +171,35 @@ All in the R&D *Community-AI Insights* SharePoint folder unless noted (drive `b!
 
 ---
 
+## Update 2026-06-18 — his orchestration stack (`orchestrate` → `johndavis`)
+
+Nethum shared `orchestrate-share.zip` plus two skills directly. This is the mature form of the "agent teams" he'd been building. Full skill text in `reference/orchestrate.md` and `reference/johndavis.md`.
+
+### `orchestrate` — the agent-team coordinator (his lean ~80-line skill)
+A pure **coordinator that never implements**. The shape worth stealing:
+- **Phase 0 — isolation:** every run starts with `git worktree add ../<repo>-<slug> -b <branch>` + `TeamCreate`; teammate prompts are forbidden from touching git outside the worktree. *One writer at a time; parallel implementers only on provably disjoint files.*
+- **Phase 1 — plan:** brief phased roadmap where **every phase ends in a runnable state** (never mid-implementation); one-line task descriptions; `TaskCreate` with a **verifiable done-condition** ("X works"/"tests pass", never "make it good") + `blockedBy` wiring. Checkpoint, wait for "go".
+- **Phase 2 — score & route:** each task scored **0–10** complexity → a matrix picks the **model** (sonnet ≤8, opus 9–10), **whether to write a plan** (`writing-plans` for 4+), and **review rigor** (`/lreview` once for low, loop-until-APPROVE for high, escalate after 3 failed loops). For 4+ tasks he **names the skills in the brief** because implementers won't find them on their own (TDD, systematic-debugging, frontend skills).
+- **Phase 3 — review & checkpoints:** route fixes back to the **same implementer** (never a fresh agent); each phase ends with "here's what you can run/test," wait for go; never merge to main; teardown leaves the worktree intact.
+
+### `johndavis` — an autonomous "proxy manager" layer on top
+`/johndavis` takes the user's **managerial seat** and runs the orchestrate team **hands-off** — no "go" gates, drives the whole build, posts progress. Never writes code. The genuinely new ideas:
+- **Flat roster beats a nested team lead.** Spawn implementers/directors **directly as named teammates** (two-way `SendMessage`, real parallelism). A nested "team lead" *can't name or message its workers and runs sequentially* — so flat is strictly better. (Direct answer to the sub-agent-communication thread from 6/16.)
+- **Decide by impact, not difficulty.** It owns decisions: research → decide → record rationale. It only escalates when a choice is **too impactful** (hard to reverse, wide blast radius, architecture/scope/cost, or commits the user externally) — and then it raises a *synthesis + context briefing* so the user can override with full context. Reversible, confident calls it just makes.
+- **Escalate external human actions.** Anything only the user can do (send a Teams message, contact a person, get a credential) is raised as an explicit who/what/why action request.
+- **Sensitivity-driven escalation cadence.** A per-project `charter.md` sets High/Medium/Low sensitivity, which moves *where the escalation bar sits* (how often to raise feature decisions / workarounds / remote-git). Local git is always the agent's; defaults to Medium.
+- **Preflight HARD GATE:** won't start without three inputs — `charter.md` (how to manage), `overview.md` (the goal), `roadmap-status.md` (does a roadmap exist?). If any is missing it runs `/auq` to interview the user rather than guessing.
+- **Escape a skill fence with a headless child.** `johndavis` is fenced from `/workflow`, so when it needs a roadmap it launches a **disposable `claude -p` child** (`--dangerously-skip-permissions --model opus`, one-shot, killed on finish) whose *only* job is to run a bounded 4-stage research workflow (**research fan-out → adversarial debate → synthesize → contrarian stress-test**) with **hard agent caps (~13 total)**. The fence is on the parent, not the child — a clever way to keep an autonomous manager safe while still getting heavyweight research.
+- **`never-guess` injected into every brief** (and used by johndavis itself) — resolve what you can, escalate up with findings + uncertainties, never assume.
+
+### Tactical tip (6/17 group chat)
+- **Use Haiku agents for Obsidian reads/writes** — match the model tier to the work; cheap I/O-bound steps don't need a frontier model. (Same token-discipline instinct as "lazy-load everything.")
+
+### Not yet extracted
+`orchestrate-share.zip` is a binary I can't unpack through the M365 tools. The two top-level skills above are its core, but it almost certainly also contains the supporting cast they reference: **`jdorchestrate`** (johndavis's own orchestrator variant), **`never-guess`**, **`/auq`**, **`/lreview`**, and the **design/refactor/simplify directors**. → Ask Nethum for those, or for the zip dropped into *Community-AI Insights* (reachable) instead of his OneDrive.
+
+---
+
 ## Appendix: full `EXAMPLES.md` (his anti-overengineering doc)
 > Recovered 2026-06-17 from *Community-AI Insights*. Four principles, each with a wrong/right code pair. Drop this (or a trimmed version) into a project's context to keep Claude's solutions simple and surgical.
 
