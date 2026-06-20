@@ -195,8 +195,23 @@ A pure **coordinator that never implements**. The shape worth stealing:
 ### Tactical tip (6/17 group chat)
 - **Use Haiku agents for Obsidian reads/writes** — match the model tier to the work; cheap I/O-bound steps don't need a frontier model. (Same token-discipline instinct as "lazy-load everything.")
 
-### Not yet extracted
-`orchestrate-share.zip` is a binary I can't unpack through the M365 tools. The two top-level skills above are its core, but it almost certainly also contains the supporting cast they reference: **`jdorchestrate`** (johndavis's own orchestrator variant), **`never-guess`**, **`/auq`**, **`/lreview`**, and the **design/refactor/simplify directors**. → Ask Nethum for those, or for the zip dropped into *Community-AI Insights* (reachable) instead of his OneDrive.
+### `orchestrate-share.zip` — unpacked 2026-06-19 (Travis downloaded it from Teams)
+The bundle's Nethum-authored parts are now in `reference/orchestrate-stack/` (the third-party design skills it ships — `anti-slop`, `impeccable`, `design-taste-frontend` — were left out; they're published deps his stack just *invokes*, not his work). What it added:
+- **`never-guess`** (skill) — the discipline injected into every brief: *resolve what you can, escalate what you can't, always show your work.* Rules: never assume a verifiable fact; resolve at your own tier; escalate **UP one level** (never sideways/skip), and **never empty-handed** — carry findings + the precise uncertainty + a clearly-labeled unverified hypothesis. A peer's claim is not an answer. Comes with an escalation message template.
+- **directors** (`design-director`, `refactor-director`, `simplify-director`) — Phase-1 analysis agents that shape briefs *before* task creation.
+- **`quickreview`** (agent) + **`/lreview`** (command) — a single-expert review pass (the lightweight counterpart to a multi-lens review) that returns a Summary table + **APPROVE / WARNING / BLOCK** verdict. This is the `/lreview` gate the orchestrate scoring matrix calls.
+- **bundle `README`** — install (`cp` into `~/.claude/{skills,agents,commands}`) + the two hard prerequisites: **(1)** `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` in settings (else no teammates / no `SendMessage`), and **(2)** the **`superpowers`** plugin (orchestrate references its `writing-plans` / `test-driven-development` / `systematic-debugging` rather than bundling them). Also: a `contrarian` agent is *deliberately excluded* from orchestrate, and a teardown caveat (in-process teammates only fully clear on session restart).
+
+**Still missing:** **`jdorchestrate`** and **`/auq`** — referenced by `johndavis` but NOT in this zip (it's the standalone *orchestrate* bundle, not the johndavis variant). Ask Nethum for those two.
+
+### How Nethum actually runs `johndavis` (from his Teams screenshots, 6/18 — `reference/johndavis-usage/`)
+The empty-looking messages last session were screenshots; here's their content:
+- **Feed it a heavyweight spec+roadmap first.** His pipeline before automating: run a `/workflow` of **4 sonnet research agents** (ideas, roadblocks, workarounds, questions-for-supervisors, internal-doc mining) → **4 sonnet critics** debate/revise → **2 opus** stress-test+synthesize → **1 opus** final pass that breaks the long synthesis into organized parts. Run the task+spec through that loop again to get a **super-detailed roadmap**.
+- **Point johndavis at a `ToManager` folder** holding three files — `charter`, `project-overview`, `roadmap-status` — so it executes without asking questions. These are exactly the johndavis **Preflight** inputs; if they're missing it refuses and either asks, or builds its own roadmap via that same workflow (Phase 0a).
+- **The `charter.md` is the *what-you're-authorized-to-do* layer** on top of the skill's general behavior. His real example (a "DAM refactor wave"): an object-scope table, explicit out-of-scope ("do **not** invent it"), per-object git worktrees, exactly two hand-back conditions (ready-to-merge / hard blocker), and a byte-for-byte done-condition (**MD5-identical golden SQL**, `TestCategory=GoldenSQL`). Good template — see `reference/johndavis-usage/transcript.md`.
+
+### The principles, as rules: `AGENTS.md` (companion to EXAMPLES.md)
+`reference/AGENTS.md` is the **rules form** of the four principles (EXAMPLES.md is the worked-examples form) — "Behavioral guidelines to reduce common LLM coding mistakes": Think Before Coding, Simplicity First, Surgical Changes, Goal-Driven Execution, each as terse do/don't rules. Drop it into a project's context (or merge into a CLAUDE.md) as the short, enforceable version.
 
 ---
 
