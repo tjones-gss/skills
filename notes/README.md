@@ -26,9 +26,10 @@ looks like and where the skills here came from.
   `orchestrate-share` bundle (his authored parts): the `/orchestrate` skill,
   `never-guess`, the design/refactor/simplify **directors**, the `quickreview` agent
   + `/lreview` command, `/ref`, and a `README` with install + prerequisites
-  (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, the `superpowers` plugin). The three
-  third-party design skills it ships (anti-slop/impeccable/design-taste-frontend)
-  were intentionally not vendored — they're published deps his stack invokes.
+  (`CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`, the `superpowers` plugin). Also vendored
+  verbatim: the three third-party design skills the bundle ships
+  (`anti-slop`, `design-taste-frontend`, `impeccable`) — published deps his stack
+  invokes for UI work; not Nethum's authored work.
 - **[reference/johndavis.md](./reference/johndavis.md)** — the autonomous
   "proxy manager" (`/johndavis`) layered on top of orchestrate: hands-off,
   decide-by-impact escalation, flat named-teammate roster, sensitivity-driven
